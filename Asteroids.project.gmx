@@ -6,24 +6,48 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprite>sprites\s_laser</sprite>
-    <sprite>sprites\s_ship</sprite>
+    <sprites name="Ship">
+      <sprite>sprites\s_laser</sprite>
+      <sprite>sprites\s_ship</sprite>
+    </sprites>
+    <sprites name="World">
+      <sprite>sprites\s_asteroid_l</sprite>
+      <sprite>sprites\s_asteroid_m</sprite>
+      <sprite>sprites\s_asteroid_s</sprite>
+      <sprite>sprites\s_saucer</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
+    <script>scripts\starmap.gml</script>
+    <script>scripts\ternary.gml</script>
     <script>scripts\wrap.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\f_heading</font>
+    <font>fonts\f_menu</font>
   </fonts>
   <objects name="objects">
-    <object>objects\o_laser</object>
-    <object>objects\o_ship</object>
+    <object>objects\o_highscore</object>
+    <object>objects\o_menu</object>
     <object>objects\o_world</object>
+    <objects name="Ship">
+      <object>objects\o_laser</object>
+      <object>objects\o_ship</object>
+    </objects>
+    <objects name="World">
+      <object>objects\o_asteroid</object>
+      <object>objects\o_asteroid_l</object>
+      <object>objects\o_asteroid_m</object>
+      <object>objects\o_asteroid_s</object>
+      <object>objects\o_saucer</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\r_menu</room>
     <room>rooms\r_main</room>
+    <room>rooms\r_highscores</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

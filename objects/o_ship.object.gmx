@@ -26,8 +26,42 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialize
-lives = 3;
 cooldown = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Lose A Life
+lives--;
+o_world.timer = 3 * room_speed;
+effect_create_above(ef_explosion, x, y, 0, c_white);
+
+// game over
+if (lives == 0)
+{
+    var name = get_string("Name thy self, space cadet?", "Star Lord");
+    highscore_add(name, score);
+    score = 0;
+    room_goto(r_highscores);
+}
 </string>
           </argument>
         </arguments>
@@ -53,28 +87,27 @@ cooldown = 0;
             <string>/// Movement
 wrap();
 
-// cooldown
-if (cooldown &gt; 0)
-    cooldown--;
-
 // turn
 if (keyboard_check(vk_left))
-    phy_rotation -= 10;
+    phy_rotation -= 3.5;
 else if (keyboard_check(vk_right))
-    phy_rotation += 10;
+    phy_rotation += 3.5;
 
 // thrust    
 if (keyboard_check(vk_up))
     physics_apply_local_force(0, 0, 0, -30);
 
+// cooldown
+if (cooldown &gt; 0)
+    cooldown--;
+    
 // fire
 if (keyboard_check(vk_space) &amp;&amp; cooldown == 0)
 {
-    with (instance_create(x, y, o_laser))
-    {
-        phy_rotation = other.phy_rotation;
-        physics_apply_local_impulse(0, 0, 0, -25);
-    }
+    var laser = instance_create(x, y, o_laser);
+    laser.phy_rotation = phy_rotation;
+    laser.owner = id;
+    with (laser) { physics_apply_local_impulse(0, 0, 0, -15); }
     cooldown = 35;
 }
 </string>
@@ -82,7 +115,7 @@ if (keyboard_check(vk_space) &amp;&amp; cooldown == 0)
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="64">
+    <event eventtype="4" ename="o_saucer">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -99,12 +132,81 @@ if (keyboard_check(vk_space) &amp;&amp; cooldown == 0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// HUD
-for(i = 0; i &lt; lives; i++)
-{
-    draw_sprite_ext(s_ship, -1, 16 + i * (s_ship.sprite_width / 2 + 4), 16, 0.5, 0.5, -1, c_white, 1);
-}
-
+            <string>/// Ouch!
+instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="o_asteroid">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Ouch!
+instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="o_laser">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Destroy
+if (id != other.owner)
+    instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw Self
+draw_sprite_ext(sprite_index, 0, x, y, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
 </string>
           </argument>
         </arguments>

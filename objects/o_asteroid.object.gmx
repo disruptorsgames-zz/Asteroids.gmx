@@ -8,75 +8,6 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
-    <event eventtype="0" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Initialize
-lives = 3;
-timer = 3 * room_speed;
-level = 1;
-anomaly = 1000;
-
-// saucers
-alarm[0] = random(anomaly - (level * 5));
-
-// generate starmap surface
-starmap();
-
-// spawn initial asteroids
-repeat(level * 3) 
-{
-    instance_create(random(room_width), random(room_height), o_asteroid_l); 
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Saucer
-var dir = choose(0, 1);
-var xx = ternary(dir == 0, view_wview[0], 0);
-var yy = irandom(view_hview[0]);
-effect_create_above(ef_smoke, xx, yy, 0, c_gray);
-var saucer = instance_create(xx, yy, o_saucer);
-saucer.dir = dir;
-alarm[0] = random(anomaly - (level * 5));
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -94,36 +25,14 @@ alarm[0] = random(anomaly - (level * 5));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Countdown
-if (timer &gt; 0)
-    timer--;
-
-// time tick
-if (timer == 0)
-{
-    // respawn
-    if (!instance_exists(o_ship))
-        instance_create(view_wview[0] / 2, view_hview[0] / 2, o_ship);
-        
-    // next level
-    if (instance_number(o_asteroid) == 0)
-    {
-        score += 100;
-        o_world.level++;
-        o_world.timer = 3 * room_speed;
-        repeat(o_world.level * 3) 
-        {
-            instance_create(random(room_width), random(room_height), o_asteroid_l); 
-        }
-        with (o_ship) { instance_destroy(); }
-    }
-}
+            <string>/// Wrap
+wrap();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="64">
+    <event eventtype="4" ename="o_saucer">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -140,34 +49,105 @@ if (timer == 0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// HUD
-
-// lives
-for(i = 0; i &lt; lives; i++)
+            <string>/// Damage
+effect_create_above(ef_ellipse, x, y, 0, c_white);
+if (shard != noone)
 {
-    draw_sprite_ext(s_ship, 1, 16 + i * (sprite_get_width(s_ship) / 2 + 4), 16, 0.5, 0.5, -1, c_white, 1);
-}
-
-// score
-draw_text_colour(16, 34, score, c_white, c_white, c_white, c_white, 1);
-
-// asteroids
-for(i = 0; i &lt; instance_number(o_asteroid); i++)
+    repeat(count) 
+    {
+        instance_create(x, y, shard);
+    }
+}    
+instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="o_asteroid">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>Collision Handler</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="o_ship">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Damage
+effect_create_above(ef_ellipse, x, y, 0, c_white);
+if (shard != noone)
 {
-    draw_sprite_ext(s_asteroid_s, irandom(1), view_wview[0] - 16 - i * (sprite_get_width(s_asteroid_s) / 2 + 4), 38, 1, 1, -1, c_white, 1);
-}
-
-// level
-var text = "Level: " + string(level);
-draw_text_colour(view_wview[0] - 8 - string_width(text), 8, text, c_white, c_white, c_white, c_white, 1);
-
-// countdown
-if (timer &gt; 0)
+    repeat(count) 
+    {
+        instance_create(x, y, shard);
+    }
+}    
+instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="o_laser">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Damage
+hp--;
+if (hp == 0)
 {
-    t = round(timer / room_speed);
-    draw_set_font(f_heading);
-    draw_text_colour((view_wview[0] - string_width(string(t))) / 2, (view_hview[0] - string_height(string(t))) / 2, t, c_white, c_white, c_white, c_white, 1);
-    draw_set_font(-1);
+    effect_create_above(ef_ellipse, x, y, 0, c_white);
+    if (shard != noone)
+    {
+        repeat(count) 
+        {
+            instance_create(x, y, shard);
+        }
+    }    
+    instance_destroy();
 }
 </string>
           </argument>
@@ -191,33 +171,9 @@ if (timer &gt; 0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw Stars
-draw_surface(surf, 0, 0);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="27">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Quit
-if (show_question("Are you sure you want to end the game?"))
-    room_goto(r_menu);
+            <string>/// Draw
+draw_self();
+//draw_text_colour(x - 5, y - 5, hp, c_red, c_red, c_red, c_red, 0.5);
 </string>
           </argument>
         </arguments>
@@ -228,10 +184,10 @@ if (show_question("Are you sure you want to end the game?"))
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>0</PhysicsObjectShape>
   <PhysicsObjectDensity>0.5</PhysicsObjectDensity>
-  <PhysicsObjectRestitution>0.100000001490116</PhysicsObjectRestitution>
+  <PhysicsObjectRestitution>0.5</PhysicsObjectRestitution>
   <PhysicsObjectGroup>0</PhysicsObjectGroup>
   <PhysicsObjectLinearDamping>0.100000001490116</PhysicsObjectLinearDamping>
-  <PhysicsObjectAngularDamping>0.100000001490116</PhysicsObjectAngularDamping>
+  <PhysicsObjectAngularDamping>0.400000005960464</PhysicsObjectAngularDamping>
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
