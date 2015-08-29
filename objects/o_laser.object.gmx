@@ -101,6 +101,7 @@ wrap();
             <string>/// Destroy
 if (owner != other.id)
 {
+    score += 100;
     effect_create_above(ef_spark, x, y, 0, c_gray);
     instance_destroy();
 }
