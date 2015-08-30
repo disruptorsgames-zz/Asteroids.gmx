@@ -4,7 +4,13 @@
     <Config>Configs\Default</Config>
   </Configs>
   <NewExtensions/>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sound>sound\sfx_die</sound>
+    <sound>sound\sfx_laser</sound>
+    <sound>sound\sfx_laser1</sound>
+    <sound>sound\sfx_explosion</sound>
+    <sound>sound\sfx_hit</sound>
+  </sounds>
   <sprites name="sprites">
     <sprites name="Ship">
       <sprite>sprites\s_laser</sprite>

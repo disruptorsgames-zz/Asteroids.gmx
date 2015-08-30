@@ -40,7 +40,10 @@ starmap();
 // spawn initial asteroids
 repeat(level * 3) 
 {
-    instance_create(random(room_width), random(room_height), o_asteroid_l); 
+    with(instance_create(random(room_width), random(room_height), o_asteroid_l))
+    {
+        image_single = round(random(image_number));
+    }
 }
 </string>
           </argument>

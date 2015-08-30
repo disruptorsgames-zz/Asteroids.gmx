@@ -8,6 +8,54 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Effects
+audio_play_sound(sfx_explosion, 10, false);
+effect_create_above(ef_ellipse, x, y, 0, c_white);
+
+// shatter
+var count = 0, shard, size = sprite_width, dir;
+switch (object_index)
+{
+    case o_asteroid_l:
+        count = 2;
+        shard = o_asteroid_m;
+        break;
+    case o_asteroid_m:
+        count = 3;
+        shard = o_asteroid_s;
+        break;
+}
+repeat(count) 
+{
+    dir = random(360);
+    with (instance_create(x + lengthdir_x(size / 2, dir), y + lengthdir_y(size / 2, dir), shard))
+    {
+        physics_apply_impulse(x, y, -size + random(size * 2), -size + random(size * 2));
+        image_single = round(random(image_number));
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -49,15 +97,7 @@ wrap();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Damage
-effect_create_above(ef_ellipse, x, y, 0, c_white);
-if (shard != noone)
-{
-    repeat(count) 
-    {
-        instance_create(x, y, shard);
-    }
-}    
+            <string>/// Destroy
 instance_destroy();
 </string>
           </argument>
@@ -103,15 +143,8 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Damage
-effect_create_above(ef_ellipse, x, y, 0, c_white);
-if (shard != noone)
-{
-    repeat(count) 
-    {
-        instance_create(x, y, shard);
-    }
-}    
+            <string>/// Destroy
+with (other) { instance_destroy(); }
 instance_destroy();
 </string>
           </argument>
@@ -138,17 +171,7 @@ instance_destroy();
             <string>/// Damage
 hp--;
 if (hp == 0)
-{
-    effect_create_above(ef_ellipse, x, y, 0, c_white);
-    if (shard != noone)
-    {
-        repeat(count) 
-        {
-            instance_create(x, y, shard);
-        }
-    }    
     instance_destroy();
-}
 </string>
           </argument>
         </arguments>

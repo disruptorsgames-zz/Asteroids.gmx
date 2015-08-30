@@ -76,7 +76,7 @@ effect_create_above(ef_explosion, x, y, 0, c_gray);
           <argument>
             <kind>1</kind>
             <string>/// Movement &amp; Shooting
-var spd = irandom(3 * o_world.level) + 15;
+var spd = irandom(3 * o_world.level) + 5;
 physics_apply_force(x, y, ternary(dir == 0, -spd, spd), 0);
 
 // cooldown
@@ -86,12 +86,13 @@ if (cooldown &gt; 0)
 // fire
 if (cooldown == 0)
 {
-    var laser = instance_create(x, y, o_laser);
+    audio_play_sound(sfx_laser1, 10, false);
+    /*var laser = instance_create(x, y, o_laser);
     laser.phy_rotation = random(360);
     laser.owner = id;
     with (laser) { physics_apply_local_impulse(0, 0, 0, -15); }
     cooldown = 35;
-    cooldown = 60 - irandom(o_world.level) * 2;
+    cooldown = 60 - irandom(o_world.level) * 2;*/
 }
 </string>
           </argument>
@@ -146,31 +147,6 @@ instance_destroy();
         </arguments>
       </action>
     </event>
-    <event eventtype="4" ename="o_laser">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Destroy
-if (id != other.owner)
-    instance_destroy();
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="7" enumb="0">
       <action>
         <libid>1</libid>
@@ -199,12 +175,12 @@ instance_destroy();
   <PhysicsObject>-1</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>2</PhysicsObjectShape>
-  <PhysicsObjectDensity>0.5</PhysicsObjectDensity>
+  <PhysicsObjectDensity>0.150000005960464</PhysicsObjectDensity>
   <PhysicsObjectRestitution>0.5</PhysicsObjectRestitution>
   <PhysicsObjectGroup>0</PhysicsObjectGroup>
-  <PhysicsObjectLinearDamping>0.5</PhysicsObjectLinearDamping>
+  <PhysicsObjectLinearDamping>0</PhysicsObjectLinearDamping>
   <PhysicsObjectAngularDamping>0.5</PhysicsObjectAngularDamping>
-  <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
+  <PhysicsObjectFriction>0</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
   <PhysicsShapePoints>
