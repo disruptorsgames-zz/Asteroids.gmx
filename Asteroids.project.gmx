@@ -12,8 +12,8 @@
     <sound>sound\sfx_hit</sound>
   </sounds>
   <sprites name="sprites">
+    <sprite>sprites\s_laser</sprite>
     <sprites name="Ship">
-      <sprite>sprites\s_laser</sprite>
       <sprite>sprites\s_ship</sprite>
     </sprites>
     <sprites name="World">
@@ -36,11 +36,12 @@
   </fonts>
   <objects name="objects">
     <object>objects\o_highscore</object>
+    <object>objects\o_laser</object>
     <object>objects\o_menu</object>
     <object>objects\o_world</object>
     <objects name="Ship">
-      <object>objects\o_laser</object>
       <object>objects\o_ship</object>
+      <object>objects\o_ship_l</object>
     </objects>
     <objects name="World">
       <object>objects\o_asteroid</object>
@@ -48,6 +49,7 @@
       <object>objects\o_asteroid_m</object>
       <object>objects\o_asteroid_s</object>
       <object>objects\o_saucer</object>
+      <object>objects\o_saucer_l</object>
     </objects>
   </objects>
   <rooms name="rooms">

@@ -87,12 +87,12 @@ if (cooldown &gt; 0)
 if (cooldown == 0)
 {
     audio_play_sound(sfx_laser1, 10, false);
-    /*var laser = instance_create(x, y, o_laser);
-    laser.phy_rotation = random(360);
-    laser.owner = id;
-    with (laser) { physics_apply_local_impulse(0, 0, 0, -15); }
-    cooldown = 35;
-    cooldown = 60 - irandom(o_world.level) * 2;*/
+    with (instance_create(x, y, o_saucer_l))
+    {
+        phy_rotation = other.phy_rotation;
+        physics_apply_local_impulse(0, 0, 0, -15);
+    }
+    cooldown = 60 - irandom(o_world.level) * 2;
 }
 </string>
           </argument>
