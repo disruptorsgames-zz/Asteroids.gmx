@@ -41,12 +41,29 @@ switch (object_index)
         count = 3;
         shard = o_asteroid_s;
         break;
+    case o_asteroid_s:
+        if (instance_number(o_asteroid) &lt;= 1)
+        {
+            effect_create_above(ef_ellipse, x, y, 2, c_blue);
+            o_world.level++;
+            count = 3 * o_world.level;
+            shard = o_asteroid_l;
+            with (o_saucer) { instance_destroy(); }
+            with (o_ship) 
+            { 
+                silent = true;
+                instance_destroy(); 
+            }
+        }
+        instance_destroy();
+        break;
 }
 repeat(count) 
 {
     dir = random(360);
     with (instance_create(x + lengthdir_x(size / 2, dir), y + lengthdir_y(size / 2, dir), shard))
     {
+        var size = sprite_width;
         physics_apply_impulse(x, y, -size + random(size * 2), -size + random(size * 2));
         image_single = round(random(image_number));
     }
@@ -80,6 +97,32 @@ wrap();
         </arguments>
       </action>
     </event>
+    <event eventtype="4" ename="o_saucer_l">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Damage
+with (other) { instance_destroy(); }
+if (hp &gt; 0)
+    hp--;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="4" ename="o_saucer">
       <action>
         <libid>1</libid>
@@ -98,6 +141,7 @@ wrap();
           <argument>
             <kind>1</kind>
             <string>/// Destroy
+with(other) { instance_destroy(); }
 instance_destroy();
 </string>
           </argument>
@@ -144,7 +188,7 @@ instance_destroy();
           <argument>
             <kind>1</kind>
             <string>/// Destroy
-with (other) { instance_destroy(); }
+with(other) { instance_destroy(); }
 instance_destroy();
 </string>
           </argument>
@@ -169,6 +213,13 @@ instance_destroy();
           <argument>
             <kind>1</kind>
             <string>/// Damage
+score += 10;
+audio_play_sound(sfx_hit, 10, false);
+with (other) 
+{ 
+    effect_create_above(ef_spark, x, y, 0, c_white);
+    instance_destroy(); 
+}
 hp--;
 if (hp == 0)
     instance_destroy();
