@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>/// Initialize
 selection = 0;
+hidemenu = false;
 menu = ds_list_create();
 ds_list_add(menu, "Arcade");
 ds_list_add(menu, "Asteroid Miner");
@@ -145,17 +146,44 @@ if (keyboard_check(vk_enter))
 draw_surface(surf, 0, 0);
 
 // menu
-for(i = 0; i &lt; ds_list_size(menu); i++)
+if (!hidemenu)
 {
-    if (i == selection)
-        value = "&gt;" + ds_list_find_value(menu, i);
-    else
-        value = ds_list_find_value(menu, i);
-    
-    draw_set_font(f_menu);
-    draw_text_colour((view_wview[0] - string_width(value)) / 2, view_hview[0] / 2 - ((ds_list_size(menu) - 1) * font_get_size(f_menu)) + (i * font_get_size(f_menu)), value, c_white, c_white, c_white, c_white, 1);
-    draw_set_font(-1);
+    for(i = 0; i &lt; ds_list_size(menu); i++)
+    {
+        if (i == selection)
+            value = "&gt;" + ds_list_find_value(menu, i);
+        else
+            value = ds_list_find_value(menu, i);
+        
+        draw_set_font(f_menu);
+        draw_text_colour((view_wview[0] - string_width(value)) / 2, view_hview[0] / 2 - ((ds_list_size(menu) - 1) * font_get_size(f_menu)) + (i * font_get_size(f_menu)), value, c_white, c_white, c_white, c_white, 1);
+        draw_set_font(-1);
+    }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="121">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Hide Menu
+hidemenu = !hidemenu;
 </string>
           </argument>
         </arguments>

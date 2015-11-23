@@ -106,7 +106,7 @@ else if (keyboard_check(vk_right))
 
 // thrust    
 if (keyboard_check(vk_up))
-    physics_apply_local_force(0, 0, 0, -30);
+    physics_apply_local_force(0, 0, 0, -20);
 
 // cooldown
 if (cooldown &gt; 0)
@@ -119,9 +119,9 @@ if (keyboard_check(vk_space) &amp;&amp; cooldown == 0)
     with (instance_create(x, y, o_ship_l))
     {
         phy_rotation = other.phy_rotation;
-        physics_apply_local_impulse(0, 0, 0, -15);
+        physics_apply_local_impulse(0, 0, 0, -20);
     }
-    cooldown = 35;
+    cooldown = 30;
 }
 </string>
           </argument>

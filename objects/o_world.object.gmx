@@ -38,9 +38,9 @@ alarm[0] = random(anomaly - (level * 5));
 starmap();
 
 // spawn initial asteroids
-repeat(1/*level * 3*/) 
+repeat(level * 3) 
 {
-    with(instance_create(random(room_width), random(room_height), o_asteroid_s))
+    with(instance_create(random(room_width), random(room_height), o_asteroid_l))
     {
         var size = sprite_width;
         physics_apply_impulse(x, y, random(size * 2), random(size * 2));
